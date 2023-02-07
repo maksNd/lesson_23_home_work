@@ -5,22 +5,24 @@ from builder import query_builder
 app = Flask(__name__)
 
 
-@app.get('/')
+@app.post('/perform_query')
 def query_page():
-    cmd1 = request.args.get('cmd1')
-    value1 = request.args.get('value1')
-    cmd2 = request.args.get('cmd2')
-    value2 = request.args.get('value2')
+    query = request.get_json()
+    cmd1 = query.get('cmd1')
+    value1 = query.get('value1')
+    cmd2 = query.get('cmd2')
+    value2 = query.get('value2')
 
+    if None in (cmd1, cmd2, value1, value2):
+        return 'Query params is not enough', 404
     try:
         result = query_builder(cmd1, value1)
         result = query_builder(cmd2, value2, result)
     except FileNotFoundError:
         return 'File not found', 404
-    except KeyError:
-        return 'Query params is not enough', 404
 
-    return ''.join(list(result)), 200
+    return '\n'.join(list(result)), 200
 
 
-app.run()
+if __name__ == '__main__':
+    app.run()

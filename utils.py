@@ -18,7 +18,7 @@ def filter_query(data, value):
 
 # map
 def map_query(data, value):
-    return map(lambda row: row.split(' ')[value], data)
+    return map(lambda row: row.split(' ')[int(value)], data)
 
 
 # unique
