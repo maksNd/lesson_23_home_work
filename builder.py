@@ -15,6 +15,3 @@ CMD_TO_QUERY: Dict[str, Callable] = {
 def query_builder(cmd: str, value: str, data: Union[Iterable]) -> Union[Iterable]:
     foo: Callable = CMD_TO_QUERY[cmd]
     return foo(data, value)
-
-
-print(type(map_query))
