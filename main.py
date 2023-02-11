@@ -11,7 +11,7 @@ app = Flask(__name__)
 def query_page():
     query: Query = QuerySchema().load(request.get_json())
 
-    if None in (query.cmd1, query.cmd2, query.value1, query.value2):
+    if None in (query.cmd1, query.value1):
         return 'Query params is not enough', 404
 
     try:
@@ -20,7 +20,9 @@ def query_page():
         return 'File not found', 404
 
     result = query_builder(query.cmd1, query.value1, data)
-    result = query_builder(query.cmd2, query.value2, result)
+
+    if None not in (query.cmd2, query.cmd2):
+        result = query_builder(query.cmd2, query.value2, result)
 
     return '\n'.join(list(result)), 200
 
