@@ -1,3 +1,5 @@
+from typing import Any, Optional, Tuple
+
 from flask import Flask, request
 
 from class_query import Query, QuerySchema

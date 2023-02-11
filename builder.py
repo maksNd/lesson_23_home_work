@@ -1,8 +1,8 @@
-from typing import List, Generator, Union
+from typing import List, Generator, Union, Callable, Any, Dict, Iterable
 
 from utils import filter_query, map_query, sort_query, unique_query, limit_query, regex_query
 
-CMD_TO_QUERY = {
+CMD_TO_QUERY: Dict[str, Callable] = {
     'filter': filter_query,
     'map': map_query,
     'sort': sort_query,
@@ -12,10 +12,8 @@ CMD_TO_QUERY = {
 }
 
 
-def query_builder(cmd: str, value: str, data: Union[Generator, List, map, set, filter]) -> Union[
-    Generator, List, map, set, filter]:
-    # foo: function = CMD_TO_QUERY[cmd]
-    foo = CMD_TO_QUERY[cmd]
+def query_builder(cmd: str, value: str, data: Union[Iterable]) -> Union[Iterable]:
+    foo: Callable = CMD_TO_QUERY[cmd]
     return foo(data, value)
 
 
